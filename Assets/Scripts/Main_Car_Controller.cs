@@ -26,6 +26,7 @@ public class Main_Car_Controller : MonoBehaviour
     [SerializeField] private int m_inMottorTorque = 1000;
     [SerializeField] private int m_inBrakeTorque = 3000;
     [SerializeField] private float m_flMaxSteerAngle = 30f;
+    public Action m_acCallBack;
     private Vector2 m_vcPos;
     Rigidbody m_rbMain;
     private float _m_flSpeed;
@@ -90,11 +91,12 @@ public class Main_Car_Controller : MonoBehaviour
 
     private void Awake()
     {
-        m_sinThis = this;
+        
     }
 
     private void Start()
     {
+        m_sinThis = this;
         m_rbMain = GetComponent<Rigidbody>();
 
         m_rbMain.velocity = Vector3.zero;
@@ -192,26 +194,23 @@ public class Main_Car_Controller : MonoBehaviour
 
         Ui_Controller.m_sinThis.StartTimer().Forget();
     }
-    public void EndGame()
+    public void EndGame(bool End = true)
     {
         enabled = false;
         m_bDrift = false;
-        Ui_Controller.m_sinThis.m_clStatTimer.Cancel();
+        if(Ui_Controller.m_sinThis.m_clStatTimer != null)
+            Ui_Controller.m_sinThis.m_clStatTimer.Cancel();
         m_clfrontLeftWheel.brakeTorque = 6000;
         m_clfrontRightWheel.brakeTorque = 6000;
         m_clfrontLeftWheel.motorTorque = 0;
         m_clfrontRightWheel.motorTorque = 0;
         m_rbMain.velocity = Vector3.zero;
-
-        var Ne = Main_Menu_Controller.m_sinThis.OpenWindow(m_wiGetReward,TypeWindow.Main).GetComponent<You_Get_Ui>();
-        Debug.Log(Ui_Controller.m_sinThis.m_inCoin);
-        Ne.Init(Ui_Controller.m_sinThis.m_inCoin);
+        if (m_wiGetReward && End)
+        {
+            var Ne = Main_Menu_Controller.m_sinThis.OpenWindow(m_wiGetReward, TypeWindow.Main).GetComponent<You_Get_Ui>();
+            Debug.Log(Ui_Controller.m_sinThis.m_inCoin);
+            Ne.Init(Ui_Controller.m_sinThis.m_inCoin,m_acCallBack);
+        }
         Ui_Controller.m_sinThis.m_txTotalScore.gameObject.SetActive(false);
     }
-    
-    
-
-
-
-
 }

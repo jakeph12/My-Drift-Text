@@ -1,6 +1,8 @@
+using Photon.Pun;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Car_Spawner : MonoBehaviour
 {
@@ -25,5 +27,17 @@ public class Car_Spawner : MonoBehaviour
     void Update()
     {
         
+    }
+    public void Close()
+    {
+        Main_Car_Controller.m_sinThis.EndGame(false);
+
+        if (Ui_Controller.m_sinThis.m_clStatTimer != null)
+            Ui_Controller.m_sinThis.m_clStatTimer.Cancel();
+
+        if (Ui_Controller.m_sinThis.m_clToken != null)
+            Ui_Controller.m_sinThis.m_clToken.Cancel();
+        Camera.main.GetComponent<Camera_Follow>().enabled = false;
+        SceneManager.LoadScene(0);
     }
 }

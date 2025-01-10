@@ -1,10 +1,12 @@
 using Cysharp.Threading.Tasks;
 using DG.Tweening;
+using Photon.Pun;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Threading;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Ui_Controller : MonoBehaviour
@@ -19,13 +21,14 @@ public class Ui_Controller : MonoBehaviour
         set
         {
             _m_inCoin = value;
-
-            m_txTotalScore.gameObject.SetActive(true);
+            if(m_txTotalScore)
+                m_txTotalScore.gameObject.SetActive(true);
             m_txTotalScore.text = $"Total score: {_m_inCoin}";
         }
     }
     public CancellationTokenSource m_clStatTimer;
     public GameObject m_gmSpeed;
+    [SerializeField]private bool Multiplayer = false;
 
 
     public int m_inMinute = 2, _m_inSecond = 1;
@@ -77,6 +80,7 @@ public class Ui_Controller : MonoBehaviour
             while ((m_inMinute > 0 || m_inSecond > 0) && !m_clStatTimer.IsCancellationRequested)
             {
                 m_inSecond--;
+                MultiPlayerSkin.m_sinThis.m_phView.RPC("SetTime", RpcTarget.Others, m_inSecond, m_inMinute);
                 await UniTask.Delay(1000);
             }
         }
@@ -124,7 +128,9 @@ public class Ui_Controller : MonoBehaviour
         m_inCoin += (int)(count * 120);
 
         m_clToken = null;
-        m_txMainScore.gameObject.SetActive(false);
+
+        if (m_txMainScore != null)
+            m_txMainScore.gameObject.SetActive(false);
 
     }
 

@@ -124,7 +124,6 @@ public class Main_Menu_Controller : MonoBehaviour
         {
             Debug.Log(ex);
         }
-
         m_sinThis.m_caToken.Dispose();
         m_sinThis.m_caToken = null;
         m_sinThis.m_gmBlock.SetActive(false);

@@ -4,10 +4,8 @@ using System.Collections.Generic;
 using System.Linq;
 using Unity.Services.Core;
 using Unity.Services.Core.Environments;
-using UnityEditor.iOS;
 using UnityEngine;
 using UnityEngine.Purchasing;
-using static UnityEditor.Progress;
 
 public class Iap_Shop_Wi : WindowUi, IStoreListener
 {

@@ -11,6 +11,6 @@ public class Game_Prepare_Wi : WindowUi
     }
     public void StartMulti()
     {
-
+        SceneManager.LoadScene(2);
     }
 }
