@@ -12,6 +12,7 @@ public class MultiPlayerSkin : MonoBehaviour ,IPunObservable
     public PhotonView m_phView;
     private bool _m_bSpoiler;
     private float m_flR, m_flG, m_flB;
+    private TimeAndDriftCounter m_TimeAndDriftCounter;
     public bool m_bSpoiler
     {
         get => _m_bSpoiler;
@@ -62,7 +63,7 @@ public class MultiPlayerSkin : MonoBehaviour ,IPunObservable
     }
     void Start()
     {
-
+        m_TimeAndDriftCounter = TimeAndDriftCounter.m_staticThis;
         if (m_phView.IsMine)
         {
             gameObject.name = gameObject.name.Replace("(Clone)", "");
@@ -91,26 +92,25 @@ public class MultiPlayerSkin : MonoBehaviour ,IPunObservable
     }
 
     [PunRPC]
-    public async void ServerClosing()
+    public void ServerClosing()
     {
         Debug.Log("Сервер закрывается. Вас отключают.");
-        await UniTask.Delay(1000);
         End();
         PhotonNetwork.Disconnect();
-        SceneManager.LoadScene(0);
+        Screen_Loader.Load_Async_Scene(0);
     }
     [PunRPC]
     public void SetTime(int Sec, int Min)
     {
         Debug.Log($"Серверное Время:{Min}:{Sec}");
-        Ui_Controller.m_sinThis.m_inMinute = Min;
-        Ui_Controller.m_sinThis.m_inSecond = Sec;
+        m_TimeAndDriftCounter.m_inMinute = Min;
+        m_TimeAndDriftCounter.m_inSecond = Sec;
     }
-    public void Leve()
+    public void LeveFromToMainMenu()
     {
-        Close();
+        CloseAll();
     }
-    public void Close()
+    public void CloseAll()
     {
         End();
 
@@ -121,19 +121,19 @@ public class MultiPlayerSkin : MonoBehaviour ,IPunObservable
         else
         {
             PhotonNetwork.Disconnect();
-            SceneManager.LoadScene(0);
+            Screen_Loader.Load_Async_Scene(0);
         }
 
     }
     void End()
     {
-        Main_Car_Controller.m_sinThis.EndGame(false);
+        Main_Car_Controller.m_staticThis.EndGame(false);
 
-        if (Ui_Controller.m_sinThis.m_clStatTimer != null)
-            Ui_Controller.m_sinThis.m_clStatTimer.Cancel();
+        if (m_TimeAndDriftCounter.m_clStatTimer != null)
+            m_TimeAndDriftCounter.m_clStatTimer.Cancel();
 
-        if (Ui_Controller.m_sinThis.m_clToken != null)
-            Ui_Controller.m_sinThis.m_clToken.Cancel();
+        if (m_TimeAndDriftCounter.m_clToken != null)
+            m_TimeAndDriftCounter.m_clToken.Cancel();
         Camera.main.GetComponent<Camera_Follow>().enabled = false;
     }
 

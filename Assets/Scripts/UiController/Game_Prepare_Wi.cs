@@ -7,10 +7,10 @@ public class Game_Prepare_Wi : WindowUi
 {
     public void StartGame()
     {
-        SceneManager.LoadScene(1);
+        Screen_Loader.Load_Async_Scene(1);
     }
     public void StartMulti()
     {
-        SceneManager.LoadScene(2);
+        Screen_Loader.Load_Async_Scene(2);
     }
 }

@@ -49,12 +49,12 @@ public class MultiPlayer_Main : MonoBehaviourPunCallbacks
         if (MultiPlayerSkin.m_sinThis)
         {
             Debug.Log("asdsad");
-            MultiPlayerSkin.m_sinThis.Leve();
+            MultiPlayerSkin.m_sinThis.LeveFromToMainMenu();
         }
         else
         {
             Debug.Log("CC");
-            SceneManager.LoadScene(0);
+            Screen_Loader.Load_Async_Scene(0);
             PhotonNetwork.Disconnect();
         }
     }

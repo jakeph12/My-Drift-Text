@@ -1312,8 +1312,6 @@ MonoBehaviour:
   m_inMottorTorque: 1343
   m_inBrakeTorque: 5000
   m_flMaxSteerAngle: 30
-  m_flPrivS: 0
-  m_wiGetReward: {fileID: 1074225856844433051, guid: c57b05637559cfc4a8a181bd154245fe, type: 3}
 --- !u!114 &2092440067014918904
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -7,36 +7,36 @@ public class PlayerInfo
     public delegate void OnIntChange(int am);
 
 
-    private static int _m_inCoin;
-    private static int _m_inId;
-    public static event OnIntChange m_evOnCoinCh;
-    public static event OnIntChange m_evOnIdCh;
-    public static int m_inCoin
+    private static int _m_IntCoin;
+    private static int _m_IntCurrentId;
+    public static event OnIntChange m_EventOnCoinCh;
+    public static event OnIntChange m_EventOnIdCh;
+    public static int m_IntCoin
     {
         get 
         {
             Init();
-            return _m_inCoin;
+            return _m_IntCoin;
         }
         set
         {
-            _m_inCoin = value;
-            PlayerPrefs.SetInt("PlayerCoin", _m_inCoin);
-            m_evOnCoinCh?.Invoke(_m_inCoin);
+            _m_IntCoin = value;
+            PlayerPrefs.SetInt("PlayerCoin", _m_IntCoin);
+            m_EventOnCoinCh?.Invoke(_m_IntCoin);
         }
     }
-    public static int m_inId
+    public static int m_IntCurrentId
     {
         get
         {
             Init();
-            return _m_inId;
+            return _m_IntCurrentId;
         }
         set
         {
-            _m_inId = value;
-            PlayerPrefs.SetInt("PlayerCar", _m_inId);
-            m_evOnIdCh?.Invoke(_m_inId);
+            _m_IntCurrentId = value;
+            PlayerPrefs.SetInt("PlayerCar", _m_IntCurrentId);
+            m_EventOnIdCh?.Invoke(_m_IntCurrentId);
         }
     }
 
@@ -45,8 +45,8 @@ public class PlayerInfo
     {
         if (m_bInit) return;
         m_bInit = true;
-        _m_inId = PlayerPrefs.GetInt("PlayerCar", 0);
-        _m_inCoin = PlayerPrefs.GetInt("PlayerCoin", 0);
+        _m_IntCurrentId = PlayerPrefs.GetInt("PlayerCar", 0);
+        _m_IntCoin = PlayerPrefs.GetInt("PlayerCoin", 0);
 
     }
 }

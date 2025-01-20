@@ -18,7 +18,7 @@ public class Main_Menu_Car_Show : MonoBehaviour
 
     void Start()
     {
-        Camera.main.transform.position = m_gmCameraPos[PlayerInfo.m_inId].transform.position;
+        Camera.main.transform.position = m_gmCameraPos[PlayerInfo.m_IntCurrentId].transform.position;
     }
     private TweenerCore<Vector3, Vector3, VectorOptions> m_inMain;
 

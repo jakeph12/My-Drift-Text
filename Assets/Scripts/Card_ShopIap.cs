@@ -27,8 +27,8 @@ public class Card_ShopIap : MonoBehaviour
     }
     public void OnComlete()
     {
-        PlayerInfo.m_inCoin += (int)m_prProd.definition.payouts.FirstOrDefault().quantity;
-        Debug.Log(PlayerInfo.m_inCoin);
+        PlayerInfo.m_IntCoin += (int)m_prProd.definition.payouts.FirstOrDefault().quantity;
+        Debug.Log(PlayerInfo.m_IntCoin);
         m_btMain.interactable = true;
     }
     public void UCom()

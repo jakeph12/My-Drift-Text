@@ -9,8 +9,7 @@ using UnityEngine;
 [RequireComponent(typeof(CanvasGroup))]
 public class WindowUi : MonoBehaviour
 {
-    public Action m_acOnDestroy,m_acOnInit;
-    public Action m_acOnSDestroy, m_acOnInitEnd;
+    public Action m_acOnInit;
     [HideInInspector]
     public Vector2 m_vcStartPos;
     private CanvasGroup m_cvGroop;
@@ -25,25 +24,24 @@ public class WindowUi : MonoBehaviour
     {
         if (m_anMain != null)
         {
-            m_acOnInitEnd?.Invoke();
+           
             m_anMain.Kill();
         }
-        m_acOnSDestroy?.Invoke();
         m_cvGroop.DOFade(0, time).OnComplete(() =>
         {
-            m_acOnDestroy?.Invoke();
-            Destroy(gameObject);
+            gameObject.SetActive(false);
 
         });
 
     }
     public virtual void Open(float time = 1)
     {
+        gameObject.SetActive(true);
         m_acOnInit?.Invoke();
+        if (!m_cvGroop) m_cvGroop = GetComponent<CanvasGroup>();
         m_cvGroop.alpha = 0;
         m_anMain = m_cvGroop.DOFade(1, time).OnComplete(() =>
         {
-            m_acOnInitEnd?.Invoke();
             m_anMain = null;
         });
 
@@ -52,8 +50,17 @@ public class WindowUi : MonoBehaviour
     {
         
     }
-    public virtual void OpenOtherM(WindowUi wi) => Main_Menu_Controller.m_sinThis.OpenWindow(wi, TypeWindow.Main);
-    public virtual void OpenOtherS(WindowUi wi) => Main_Menu_Controller.m_sinThis.OpenWindow(wi, TypeWindow.Additional);
-    public virtual void OpenOtherN(WindowUi wi) => Main_Menu_Controller.m_sinThis.OpenWindow(wi, TypeWindow.NoClosed);
+    public virtual void OpenOther(WindowUi wi)
+    {
+        DellObj();
+        wi.Open();
+    }
+    public virtual void OpenOtherN(WindowUi wi)
+    {
+        wi.Open();
+    }
+    public virtual void OnDestroy()
+    {
+    }
 
 }
